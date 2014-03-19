@@ -7,4 +7,4 @@ class List(models.Model):
 
 class Item(models.Model):
     text = models.TextField()
-    list = models.TextField()
+    list = models.ForeignKey(List)

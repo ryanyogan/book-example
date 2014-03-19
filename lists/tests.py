@@ -29,8 +29,9 @@ class NewListTest(TestCase):
 
 class ListViewTest(TestCase):
     def test_display_all_items(self):
-        Item.objects.create(text='itemy 1')
-        Item.objects.create(text='itemy 2')
+        list_ = List.objects.create()
+        Item.objects.create(text='itemy 1', list=list_)
+        Item.objects.create(text='itemy 2', list=list_)
 
         response = self.client.get('/lists/the-only-list-in-the-world/')
 
