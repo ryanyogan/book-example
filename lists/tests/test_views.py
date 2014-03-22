@@ -8,7 +8,7 @@ from lists.views import home_page
 from lists.models import Item, List
 
 
-class NewItemTest(TestCase):
+class ListViewTest(TestCase):
 
     def test_validation_errors_are_sent_back_to_home_page_template(self):
         response = self.client.post('/lists/new', data={'item_text': ''})
@@ -29,7 +29,7 @@ class NewItemTest(TestCase):
         correct_list = List.objects.create()
 
         self.client.post(
-                '/lists/%d/new_item' % (correct_list.id,),
+                '/lists/%d/' % (correct_list.id,),
                 data={'item_text': 'A new item for an existing list'}
         )
 
@@ -44,14 +44,12 @@ class NewItemTest(TestCase):
         correct_list = List.objects.create()
 
         response = self.client.post(
-            '/lists/%d/new_item' % (correct_list.id,),
+            '/lists/%d/' % (correct_list.id,),
             data={'item_text': 'A new item for an existing list'}
         )
 
         self.assertRedirects(response, '/lists/%d/' % (correct_list.id,))
 
-
-class NewListTest(TestCase):
     def test_saving_a_post_request(self):
         self.client.post(
             '/lists/new',
@@ -70,8 +68,6 @@ class NewListTest(TestCase):
         new_list = List.objects.first()
         self.assertRedirects(response, '/lists/%d/' % (new_list.id,))
 
-
-class ListViewTest(TestCase):
     def test_displays_only_items_for_that_list(self):
         correct_list = List.objects.create()
         Item.objects.create(text='itemy 1', list=correct_list)
